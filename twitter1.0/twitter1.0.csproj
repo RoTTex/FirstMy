@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6983C3C-747D-4651-BD39-0F3328C521F4}</ProjectGuid>
+    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>twitter1.</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>twitter10</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>true</MtouchDebug>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Ad-Hoc</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <BuildIpa>true</BuildIpa>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <ConsolePause>false</ConsolePause>
+    <CodesignProvision>Automatic:AdHoc</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\AppStore</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignProvision>Automatic:AppStore</CodesignProvision>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Social.iOS">
+      <HintPath>Xamarin\Xamarin.Social.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Auth.iOS">
+      <HintPath>Xamarin\Xamarin.Auth.iOS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Newtonsoft.Json.dll" />
+    <None Include="Xamarin\.DS_Store" />
+    <None Include="Xamarin\Xamarin.Auth.iOS.dll" />
+    <None Include="Xamarin\Xamarin.Auth.iOS.xml" />
+    <None Include="Xamarin\Xamarin.Social.iOS.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="JsonParser.cs" />
+    <Compile Include="TableSource.cs" />
+    <Compile Include="Twit.cs" />
+    <Compile Include="TwitterConnectoin.cs" />
+    <Compile Include="Screens\HomeScreen.cs" />
+    <Compile Include="Screens\InfoScreen.cs" />
+    <Compile Include="Screens\TwitScreen.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <BundleResource Include="Resources\Default%402x.png" />
+    <BundleResource Include="Resources\Default.png" />
+    <BundleResource Include="Resources\Icons\Icon-Small.png" />
+    <BundleResource Include="Resources\Icons\Icon-Small%402x.png" />
+    <BundleResource Include="Resources\Icons\Icon.png" />
+    <BundleResource Include="Resources\Icons\Icon%402x.png" />
+    <BundleResource Include="Resources\Icons\iTunesArtwork%402x.png" />
+    <BundleResource Include="Resources\Info\button.png" />
+    <BundleResource Include="Resources\Info\button%402x.png" />
+    <BundleResource Include="Resources\Info\button_1p.png" />
+    <BundleResource Include="Resources\Info\button_pressed.png" />
+    <BundleResource Include="Resources\Info\button_pressed%402x.png" />
+    <BundleResource Include="Resources\Info\icon_mail.png" />
+    <BundleResource Include="Resources\Info\icon_mail%402x.png" />
+    <BundleResource Include="Resources\Info\icon_phone.png" />
+    <BundleResource Include="Resources\Info\icon_phone%402x.png" />
+    <BundleResource Include="Resources\Info\logo.png" />
+    <BundleResource Include="Resources\Info\logo%402x.png" />
+    <BundleResource Include="Resources\Main\avatar.png" />
+    <BundleResource Include="Resources\Main\avatar%402x.png" />
+    <BundleResource Include="Resources\Main\avatar_big.png" />
+    <BundleResource Include="Resources\Main\avatar_big%402x.png" />
+    <BundleResource Include="Resources\Main\mask_avatar.png" />
+    <BundleResource Include="Resources\Main\mask_avatar%402x.png" />
+    <BundleResource Include="Resources\Main\mask_avatar_mini.png" />
+    <BundleResource Include="Resources\Main\mask_avatar_mini%402x.png" />
+    <BundleResource Include="Resources\Main\table.png" />
+    <BundleResource Include="Resources\Main\table%402x.png" />
+    <BundleResource Include="Resources\Main\table_pressed.png" />
+    <BundleResource Include="Resources\Main\table_pressed%402x.png" />
+    <BundleResource Include="Resources\Mockups\Info.png" />
+    <BundleResource Include="Resources\Mockups\Main.png" />
+    <BundleResource Include="Resources\Mockups\Splash.png" />
+    <BundleResource Include="Resources\Mockups\Tweets.png" />
+    <BundleResource Include="Resources\Splash\splash.png" />
+    <BundleResource Include="Resources\Splash\splash%402x.png" />
+    <BundleResource Include="Resources\TabBar\icon_apple.png" />
+    <BundleResource Include="Resources\TabBar\icon_apple%402x.png" />
+    <BundleResource Include="Resources\TabBar\icon_dribbble.png" />
+    <BundleResource Include="Resources\TabBar\icon_dribbble%402x.png" />
+    <BundleResource Include="Resources\TabBar\icon_github.png" />
+    <BundleResource Include="Resources\TabBar\icon_github%402x.png" />
+    <BundleResource Include="Resources\TabBar\icon_twitter.png" />
+    <BundleResource Include="Resources\TabBar\icon_twitter%402x.png" />
+    <BundleResource Include="Resources\Tweets\bg.png" />
+    <BundleResource Include="Resources\Tweets\bg%402x.png" />
+    <BundleResource Include="Resources\Tweets\line.png" />
+    <BundleResource Include="Resources\Tweets\line%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ITunesArtwork Include="Resources\Icons\iTunesArtwork.png" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone.6.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="AppDelegate.cs">
+    <Files>
+      <File FileName="AppDelegate.cs" Line="47" Column="35" />
+      <File FileName="Screens/HomeScreen.cs" Line="49" Column="21" />
+      <File FileName="Screens/TwitScreen.cs" Line="65" Column="35" />
+      <File FileName="Screens/InfoScreen.cs" Line="34" Column="86" />
+      <File FileName="TableSource.cs" Line="58" Column="16" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="twitter1.0" expanded="True" selected="True">
+            <Node name="Resources" expanded="True">
+              <Node name="Info" expanded="True" />
+            </Node>
+            <Node name="Screens" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../Twitter/Twitter/Screens/HomeScreen.cs" line="105" offsetX="758" offsetY="1560" expression="jObject" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>
