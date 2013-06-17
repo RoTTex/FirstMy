@@ -9,6 +9,8 @@ namespace Twitter
 	{
 		private UIButton _btnCall = UIButton.FromType (UIButtonType.Custom);
 		private UIButton _btnMail = UIButton.FromType (UIButtonType.Custom);
+		private UITextView _text = new UITextView ();
+
 
 		public InfoScreen () : base ()
 		{
@@ -34,25 +36,25 @@ namespace Twitter
 
 			var img = new UIImage (@"info/logo.png");
 			var imgView = new UIImageView(img);
-			imgView.Frame = new RectangleF (0, 5, 320, img.Size.Height);
+			imgView.Frame = new RectangleF (0, 5, View.Frame.Right -  20, img.Size.Height);
 			imgView.ContentMode = UIViewContentMode.Center;
 			Add (imgView);
 
-			var text = new UITextView (new RectangleF(10, imgView.Frame.Bottom + 1, 300, 180));
-			text.Font = UIFont.FromName("HelveticaNeue", 13);
-			text.Text = "Нам не стыдно за выпускаемые продукты, все они сделаны с вниманием к деталям. Пользователи это ценят, многие наши приложения попадают в топы AppStore и получают высокие оценки. \nМы любим своих заказчиков и решаем их задачи. На письма и телефон отвечаем быстро, по праздникам и выходным, делаем работу в срок и никуда не пропадаем.\nЗакажите разработку сейчас! ";
-			text.TextAlignment = UITextAlignment.Left;
-			text.TextColor = UIColor.FromRGB (65, 65, 65);
-			text.ScrollEnabled = true;
-			text.UserInteractionEnabled = false;
-			text.BackgroundColor = new UIColor (0, 0, 0, 0);
-			Add (text);
+			_text.Frame = new RectangleF(10, imgView.Frame.Bottom + 1, View.Frame.Right -  20, 180);
+			_text.Font = UIFont.FromName("HelveticaNeue", 13);
+			_text.Text = "Нам не стыдно за выпускаемые продукты, все они сделаны с вниманием к деталям. Пользователи это ценят, многие наши приложения попадают в топы AppStore и получают высокие оценки. \nМы любим своих заказчиков и решаем их задачи. На письма и телефон отвечаем быстро, по праздникам и выходным, делаем работу в срок и никуда не пропадаем.\nЗакажите разработку сейчас! ";
+			_text.TextAlignment = UITextAlignment.Left;
+			_text.TextColor = UIColor.FromRGB (65, 65, 65);
+			_text.ScrollEnabled = true;
+			_text.UserInteractionEnabled = false;
+			_text.BackgroundColor = new UIColor (0, 0, 0, 0);
+			Add (_text);
 
 			var imgButton = new UIImage (@"Info/button.png").StretchableImage (11,0);
 			var imgButton_pressed = new UIImage (@"Info/button_pressed.png").StretchableImage (11,0);
 
 			var imgCallButtonIcon = new UIImage (@"Info/icon_phone.png");
-			_btnCall.Frame = new RectangleF (10, text.Frame.Bottom + 1, 130, 50);
+			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 1, 130, 50);
 			_btnCall.SetBackgroundImage(imgButton, UIControlState.Normal);
 			_btnCall.SetBackgroundImage(imgButton_pressed, UIControlState.Highlighted);
 			_btnCall.SetImage (imgCallButtonIcon, UIControlState.Normal);
@@ -64,7 +66,7 @@ namespace Twitter
 			Add (_btnCall);
 
 			var imgMailButtonIcon = new UIImage (@"Info/icon_mail.png");
-			_btnMail.Frame = new RectangleF (180, text.Frame.Bottom + 1, 130, 50);
+			_btnMail.Frame = new RectangleF (View.Frame.Right - 140, _text.Frame.Bottom + 1, 130, 50);
 			_btnMail.SetBackgroundImage(imgButton, UIControlState.Normal);
 			_btnMail.SetBackgroundImage(imgButton_pressed, UIControlState.Highlighted);
 			_btnMail.SetImage (imgMailButtonIcon, UIControlState.Normal);
@@ -73,6 +75,13 @@ namespace Twitter
 				BeginInvokeOnMainThread (() => {new UIAlertView ("Site", "www.Some.com", null, "OK").Show ();});
 			};
 			Add (_btnMail);
+		}
+
+		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
+		{
+			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 1, 130, 50);
+			_btnMail.Frame = new RectangleF (View.Frame.Right - 140, _text.Frame.Bottom + 1, 130, 50);
+
 		}
 	}
 }

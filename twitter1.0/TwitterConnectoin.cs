@@ -31,7 +31,7 @@ namespace Twitter
 			{
 				_account = acc; 
 				IsAuthenticated = true;
-				AccountStore.Create().Save(acc, "Twitter");
+				//AccountStore.Create().Save(acc, "Twitter");
 				OnAuthenricationComplete();
 			});
 		}
@@ -51,7 +51,7 @@ namespace Twitter
 			req.GetResponseAsync ().ContinueWith (r => {
 				if (r.IsFaulted)
 				{
-					Alert (r.Exception.Flatten ().InnerException.ToString ());
+					OnTweetsTaken("");
 				} else 
 				{
 					OnTweetsTaken(r.Result.GetResponseText ());
@@ -63,13 +63,6 @@ namespace Twitter
 		{
 			if (TweetsTaken != null)
 				TweetsTaken (str);
-		}
-
-		void Alert (string message)
-		{
-			/*BeginInvokeOnMainThread (() => {
-				new UIAlertView ("Hey", message, null, "OK").Show ();
-			});*/
 		}
 	}
 }

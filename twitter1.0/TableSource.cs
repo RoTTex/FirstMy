@@ -3,6 +3,8 @@ using MonoTouch.UIKit;
 using MonoTouch.Foundation;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace Twitter
 {
@@ -38,13 +40,22 @@ namespace Twitter
 			for (int i = 0; i < length; i++)
 				stringBuilder.Append (_tableItems [indexPath.Row].Info[i]);
 
-			UITableViewCell cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _cellIdentifier);
-			cell.ImageView.Image = new UIImage(_tableItems [indexPath.Row].ImagePath);
+			var lbl = new UILabel (new RectangleF(270, 5, 40, 40));
+			lbl.BackgroundColor = new UIColor (0, 0, 0, 0);
+			lbl.Text = "1";
+			lbl.TextColor = UIColor.FromRGB (65, 65, 65);
+
+			var nsUrl = new NSUrl (_tableItems [indexPath.Row].ImagePath);
+			var nsData = NSData.FromUrl(nsUrl);
+			var cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _cellIdentifier);
+			cell.AddSubview(lbl);
+			cell.ImageView.Image = new UIImage(nsData != null ? nsData : @"Main/avatar.png");
 
 			cell.TextLabel.Text = _tableItems [indexPath.Row].Name;
 			cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
 			cell.DetailTextLabel.Text = stringBuilder.ToString();
 			cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
+			cell.DetailTextLabel.TextColor = UIColor.FromRGB (65, 65, 65);
 
 			return cell;
 		}

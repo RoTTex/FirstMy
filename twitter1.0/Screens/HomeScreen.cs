@@ -18,9 +18,12 @@ namespace Twitter
 		private string _tag;
 		private UITableView _table;
 		private TableSource _tableSource;
+		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
+		public Action<string> TabSelected;
 
-		public HomeScreen (string tag, TwitterConnectoin twitterConection) : base ("HomeScreen", null)
+		public HomeScreen (string tag, TwitterConnectoin twitterConection) : base ()
 		{
+			Title = tag;
 			_twitterConection = twitterConection;
 			_tag = tag;
 		}
@@ -44,6 +47,14 @@ namespace Twitter
 				this.NavigationController.PushViewController(twitter, true);
 			};
 			_table.Source = _tableSource;
+
+			OnTabSelected ();
+		}
+
+		private void OnTabSelected()
+		{
+			if (TabSelected != null)
+				TabSelected (_tag);
 		}
 
 		public override void DidReceiveMemoryWarning ()
@@ -55,23 +66,7 @@ namespace Twitter
 		{
 			base.ViewDidLoad ();
 
-			var imgView = new UIImageView (View.Bounds);
-			imgView.Image = new UIImage (@"Tweets/bg.png");
-			_table = new UITableView(new RectangleF(0, 0, 320, 250));	
-			_table.RowHeight = 50;
-			_table.BackgroundView = imgView;
-			Add (_table);
-
-			var btn = UIButton.FromType (UIButtonType.RoundedRect);
-			btn.SetTitle("Показать еще", UIControlState.Normal);
-			btn.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
-			btn.Frame = new RectangleF (15, _table.Frame.Bottom + 15, 290, 60);
-			btn.TouchUpInside += (sender, e) => 
-			{
-				_count += 5;
-				_twitterConection.GeTwittstByTag(_tag, _count);
-			};
-			Add (btn);
+			AddComponents ();
 
 			Init ();
 		}
@@ -92,6 +87,43 @@ namespace Twitter
 			};
 			PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
 
+		}
+
+		private void AddComponents()
+		{
+			View.ContentMode = UIViewContentMode.ScaleToFill;
+			var imgView = new UIImageView (View.Bounds);
+			imgView.Image = new UIImage (@"Tweets/bg.png");
+			_table = new UITableView(View.Bounds);	
+			_table.ContentMode = UIViewContentMode.ScaleToFill;
+			_table.RowHeight = 50;
+			_table.BackgroundView = imgView;
+			Add (_table);
+
+			var btn = UIButton.FromType (UIButtonType.RoundedRect);
+			btn.SetTitle("Показать еще", UIControlState.Normal);
+			btn.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
+			btn.Frame = new RectangleF (15, 15, 290, 60);
+			btn.Frame = new RectangleF (15, _table.Frame.Bottom + 15, 290, 60);
+			btn.TouchUpInside += (sender, e) => 
+			{
+				_count += 5;
+				_twitterConection.GeTwittstByTag(_tag, _count);
+			};
+			Add (btn);
+
+			_btnInfo = new UIBarButtonItem ();
+			_btnInfo.Title = "Инфо";
+			_btnInfo.Clicked += (sender, e) => {
+				InfoScreen infoScreen = new InfoScreen();
+				NavigationController.PushViewController (infoScreen, true);
+			};			
+			NavigationController.NavigationBar.TopItem.RightBarButtonItem = _btnInfo;
+		}
+
+		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
+		{
+			_table.Frame = View.Frame;
 		}
 	}
 }
