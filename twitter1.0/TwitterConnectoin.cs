@@ -30,7 +30,8 @@ namespace Twitter
 			return Twitter.GetAuthenticateUI (acc =>
 			{
 				_account = acc; 
-				IsAuthenticated = true;
+				if (_account!=null)
+					IsAuthenticated = true;
 				//AccountStore.Create().Save(acc, "Twitter");
 				OnAuthenricationComplete();
 			});
@@ -44,6 +45,8 @@ namespace Twitter
 
 		public void GeTwittstByTag(string tag, int count)
 		{	
+			if (!IsAuthenticated)
+				return;
 			var req = Twitter.CreateRequest ("GET", new Uri ("https://api.twitter.com/1.1/search/tweets.json"), new Dictionary<string, string> {
 				{ "q", "%23" + tag },
 				{ "count", count.ToString() }

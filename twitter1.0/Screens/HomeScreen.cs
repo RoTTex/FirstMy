@@ -12,15 +12,20 @@ using Newtonsoft.Json;
 namespace Twitter
 {
 	public partial class HomeScreen : UIViewController
-	{
+	{		
+		public Action<string> TabSelected;
+
+
+
 		private int _count = 5;
 		private TwitterConnectoin _twitterConection;
 		private string _tag;
 		private UITableView _table;
 		private TableSource _tableSource = new TableSource ();
 		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
-		public Action<string> TabSelected;
 		private LoadingOverlay _loadingOverlay;
+
+
 
 		public HomeScreen (string tag, TwitterConnectoin twitterConection) : base ()
 		{
@@ -28,6 +33,9 @@ namespace Twitter
 			_twitterConection = twitterConection;
 			_tag = tag;
 		}
+
+
+
 
 		private new void Init()
 		{
@@ -93,7 +101,6 @@ namespace Twitter
 				DismissViewController(true, null);
 			};
 			PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
-
 		}
 
 		private void AddComponents()
@@ -105,6 +112,7 @@ namespace Twitter
 			_table.ContentMode = UIViewContentMode.ScaleToFill;
 			_table.RowHeight = 50;
 			_table.BackgroundView = imgView;
+			Add (_table);
 
 			var btn = UIButton.FromType (UIButtonType.RoundedRect);
 			btn.SetTitle("Показать еще", UIControlState.Normal);
@@ -120,9 +128,7 @@ namespace Twitter
 			};
 			//Add (btn);
 			_tableSource.BtnAdd = btn;
-			_table.AddSubview (btn);
-
-			Add (_table);
+			//_table.AddSubview (btn);
 
 			_btnInfo = new UIBarButtonItem ();
 			_btnInfo.Title = "Инфо";
