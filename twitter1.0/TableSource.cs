@@ -8,12 +8,21 @@ using System.Text.RegularExpressions;
 
 namespace Twitter
 {
-	public class TableSource : UITableViewSource {
-		List<Twit> _tableItems = new List<Twit>();
-		string _cellIdentifier = "TableCell";
+	public class TableSource : UITableViewSource 
+	{
+		public event Action<Twit> SelectionChanged;
+
+
+
+		private List<Twit> _tableItems = new List<Twit>();
+		private string _cellIdentifier = "TableCell";
+		private UILabel _lblTime = new UILabel();
+
+
+
 		public UIButton BtnAdd; 
 
-		public event Action<Twit> SelectionChanged;
+
 
 		public TableSource ()
 		{
@@ -23,6 +32,8 @@ namespace Twitter
 		{
 			_tableItems = items;
 		}
+
+
 
 		public override int RowsInSection (UITableView tableview, int section)
 		{
@@ -45,10 +56,10 @@ namespace Twitter
 			for (int i = 0; i < length; i++)
 				stringBuilder.Append (_tableItems [indexPath.Row].Info[i]);
 
-			var lbl = new UILabel (new RectangleF(270, 5, 40, 40));
-			lbl.BackgroundColor = new UIColor (0, 0, 0, 0);
-			lbl.Text = "1";
-			lbl.TextColor = UIColor.FromRGB (65, 65, 65);
+			_lblTime = new UILabel ();
+			_lblTime.BackgroundColor = new UIColor (0, 0, 0, 0);
+			_lblTime.Text = "1";
+			_lblTime.TextColor = UIColor.FromRGB (65, 65, 65);
 
 			var btn = new UIButton (new RectangleF(270,5,40,40));
 			btn.BackgroundColor = UIColor.Black;
@@ -56,8 +67,8 @@ namespace Twitter
 			var nsUrl = new NSUrl (_tableItems [indexPath.Row].ImagePath);
 			var nsData = NSData.FromUrl(nsUrl);
 			var cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _cellIdentifier);
-			lbl.Frame.Location = new PointF (cell.Frame.Width - 30, 5);
-			cell.AddSubview(lbl);
+			//cell.AddSubview(_lblTime);
+			_lblTime.Frame = new RectangleF(400 - 50, 5, 40, 40);
 			cell.ImageView.Image = new UIImage(nsData != null ? nsData : @"Main/avatar.png");
 
 			cell.TextLabel.Text = _tableItems [indexPath.Row].Name;

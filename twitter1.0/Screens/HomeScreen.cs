@@ -88,7 +88,10 @@ namespace Twitter
 		public override void ViewDidAppear (bool animated)
 		{
 			if (_isLoaded)
+			{
+				DidRotate(new UIInterfaceOrientation());
 				return;
+			}
 
 			base.ViewDidAppear (animated);
 			
@@ -96,28 +99,15 @@ namespace Twitter
 
 			Init ();
 
-			//if (_twitterConection.IsAuthenticated)
-			//{
-				var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
-				activitySpinner.Frame = new RectangleF (0,0,50,50);
-				activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
-				activitySpinner.StartAnimating ();
-				_alert = new UIAlertView();
-				_alert.Frame.Size = new SizeF (60, 60);
-				_alert.AddSubview(activitySpinner);
-				_alert.Show();
-
-				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
-				return;
-			//}
-
-
-
-//			_twitterConection.AuthenricationComplete += delegate() 
-//			{
-//				DismissViewController(true, null);
-//			};
-			//PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
+			var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+			activitySpinner.Frame = new RectangleF (0,0,50,50);
+			activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+			activitySpinner.StartAnimating ();
+			_alert = new UIAlertView();
+			_alert.Frame.Size = new SizeF (60, 60);
+			_alert.AddSubview(activitySpinner);
+			_alert.Show();
+			_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
 		}
 
 		private int GetNumberOfRows()
@@ -160,8 +150,6 @@ namespace Twitter
 			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
 			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, View.Frame.Width - 30, 40);
 		}
-
-
 	}
 }
 

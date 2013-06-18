@@ -13,6 +13,8 @@ namespace Twitter
 		private Twit _tweet;
 		private UITextView _text = new UITextView ();
 		private UIImageView _imgView = new UIImageView();
+		private UILabel _lblStatus = new UILabel();
+
 
 
 		public TwitScreen () : base ()
@@ -24,6 +26,8 @@ namespace Twitter
 		{
 			_tweet = tweet;
 		}
+
+
 
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -41,24 +45,9 @@ namespace Twitter
 		{			
 			View.BackgroundColor = UIColor.FromPatternImage(new UIImage (@"Tweets/bg.png"));
 
-//			var maskImage = new UIImage (@"Main/avatar_big.png").CGImage;
-//			var mask = new CGImage (maskImage.Width,
-//			                           maskImage.Height,
-//			                           maskImage.BitsPerComponent,
-//			                           maskImage.BitsPerPixel,
-//			                           maskImage.BytesPerRow,
-//			                           maskImage.ColorSpace,
-//			                           maskImage.AlphaInfo,
-//			                           maskImage.DataProvider,
-//			                           null, false, maskImage.RenderingIntent);
-			                           
-
 			var nsUrl = new NSUrl (_tweet.ImagePath);
 			var nsData = NSData.FromUrl(nsUrl);
 			var img = new UIImage (nsData != null ? nsData : @"Main/avatar.png");
-//			CGImage maskedImg = img.CGImage.WithMask (mask);
-//			UIImage asfsdf = UIImage.FromImage (maskedImg);
-//			_imgView = new UIImageView (asfsdf);
 
 			_imgView = new UIImageView (img);
 			_imgView.Frame = new RectangleF (15, 28, 64, 64);
@@ -71,12 +60,12 @@ namespace Twitter
 			lblName.BackgroundColor = new UIColor(0,0,0,0);
 			Add (lblName);
 
-			var lblStatus = new UILabel (new RectangleF(_imgView.Frame.Right + 18, lblName.Frame.Bottom, View.Frame.Width - _imgView.Frame.Right - 28, 30));
-			lblStatus.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
-			lblStatus.TextColor = UIColor.FromRGB(65,65,65);
-			lblStatus.Text = _tweet.SmallInfo;
-			lblStatus.BackgroundColor = new UIColor(0,0,0,0);
-			Add (lblStatus);
+			_lblStatus.Frame = new RectangleF(_imgView.Frame.Right + 18, lblName.Frame.Bottom, View.Frame.Width - _imgView.Frame.Right - 28, 30);
+			_lblStatus.Font = UIFont.FromName("HelveticaNeue-Bold", 12);
+			_lblStatus.TextColor = UIColor.FromRGB(65,65,65);
+			_lblStatus.Text = _tweet.SmallInfo;
+			_lblStatus.BackgroundColor = new UIColor(0,0,0,0);
+			Add (_lblStatus);
 
 			_text = new UITextView (new RectangleF(10, _imgView.Frame.Bottom + 10, View.Frame.Width - 20, 60));
 			_text.Font = UIFont.FromName("HelveticaNeue", 12);
@@ -108,6 +97,7 @@ namespace Twitter
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
+			_lblStatus.Frame = new RectangleF(_imgView.Frame.Right + 18, _lblStatus.Frame.Top, View.Frame.Width - _imgView.Frame.Right - 28, 30);
 			_text.Frame = new RectangleF (10, _imgView.Frame.Bottom + 10, View.Frame.Width - 20, 60);
 		}
 	}

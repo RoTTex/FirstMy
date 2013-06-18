@@ -13,9 +13,13 @@ namespace Twitter
 		private UIImageView _imgView = new UIImageView();
 		private UITextView _text = new UITextView();
 
+
+
 		public InfoScreen () : base ()
 		{
 		}
+
+
 
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -90,7 +94,7 @@ namespace Twitter
 			_scroll.Frame =  View.Frame;
 			_scroll.ContentSize = new SizeF (100, 500);
 			_imgView.Frame = new RectangleF (0, 5, View.Frame.Width, _imgView.Frame.Height);
-			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, View.Frame.Height == 219 ? 120 : 180);
+			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, View.Frame.Height == 219 ? 120 : 190);
 			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 50);
 			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 50);
 
