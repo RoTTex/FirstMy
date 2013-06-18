@@ -17,13 +17,14 @@ namespace Twitter
 
 
 
-		private int _count = 5;
+		private int _clickCount = 1;
 		private TwitterConnectoin _twitterConection;
 		private string _tag;
 		private UITableView _table;
 		private TableSource _tableSource = new TableSource ();
 		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
 		private LoadingOverlay _loadingOverlay;
+		private UIAlertView _alert = new UIAlertView ();
 
 
 
@@ -39,9 +40,6 @@ namespace Twitter
 
 		private new void Init()
 		{
-			//_tableSource = new TableSource ();
-
-
 			_twitterConection.TweetsTaken += (json) => 
 			{
 				JsonParser parser = new JsonParser();
@@ -50,7 +48,7 @@ namespace Twitter
 				_tableSource.AddRange(tweets);
 				InvokeOnMainThread(_table.ReloadData);
 
-				InvokeOnMainThread(_loadingOverlay.Hide);
+				InvokeOnMainThread(CloseAlert);
 			};
 
 			_tableSource.SelectionChanged += (twit) => 
@@ -61,6 +59,11 @@ namespace Twitter
 			_table.Source = _tableSource;
 
 			OnTabSelected ();
+		}
+
+		private void CloseAlert()
+		{
+			_alert.DismissWithClickedButtonIndex(0, true);
 		}
 
 		private void OnTabSelected()
@@ -83,8 +86,6 @@ namespace Twitter
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
-
-
 			
 			AddComponents ();
 
@@ -92,10 +93,16 @@ namespace Twitter
 
 			if (_twitterConection.IsAuthenticated)
 			{
-				_loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				View.Add (_loadingOverlay);
+				var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
+				activitySpinner.Frame = new RectangleF (0,0,50,50);
+				activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
+				activitySpinner.StartAnimating ();
+				_alert = new UIAlertView();
+				_alert.Frame.Size = new SizeF (60, 60);
+				_alert.AddSubview(activitySpinner);
+				_alert.Show();
 
-				_twitterConection.GeTwittstByTag(_tag, _count);
+				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
 				return;
 			}
 
@@ -104,6 +111,11 @@ namespace Twitter
 				DismissViewController(true, null);
 			};
 			PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
+		}
+
+		private int GetNumberOfRows()
+		{
+			return ((int)(View.Frame.Height / 50) - 1) * _clickCount;
 		}
 
 		private void AddComponents()
@@ -120,10 +132,9 @@ namespace Twitter
 			btn.Frame = new RectangleF (15, 5, 290, 40);
 			btn.TouchUpInside += (sender, e) => 
 			{
-				_loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
-				View.Add (_loadingOverlay);
-				_count += 5;
-				_twitterConection.GeTwittstByTag(_tag, _count);
+				_alert.Show();
+				_clickCount++;
+				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
 			};
 			_tableSource.BtnAdd = btn;
 
@@ -141,6 +152,8 @@ namespace Twitter
 			_table.Frame = View.Frame;
 			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, _table.Frame.Width - 30, 40);
 		}
+
+
 	}
 }
 
