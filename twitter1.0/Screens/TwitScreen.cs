@@ -41,26 +41,26 @@ namespace Twitter
 		{			
 			View.BackgroundColor = UIColor.FromPatternImage(new UIImage (@"Tweets/bg.png"));
 
-			var maskImage = new UIImage (@"Main/avatar_big.png").CGImage;
-			var mask = new CGImage (maskImage.Width,
-			                           maskImage.Height,
-			                           maskImage.BitsPerComponent,
-			                           maskImage.BitsPerPixel,
-			                           maskImage.BytesPerRow,
-			                           maskImage.ColorSpace,
-			                           maskImage.AlphaInfo,
-			                           maskImage.DataProvider,
-			                           null, false, maskImage.RenderingIntent);
+//			var maskImage = new UIImage (@"Main/avatar_big.png").CGImage;
+//			var mask = new CGImage (maskImage.Width,
+//			                           maskImage.Height,
+//			                           maskImage.BitsPerComponent,
+//			                           maskImage.BitsPerPixel,
+//			                           maskImage.BytesPerRow,
+//			                           maskImage.ColorSpace,
+//			                           maskImage.AlphaInfo,
+//			                           maskImage.DataProvider,
+//			                           null, false, maskImage.RenderingIntent);
 			                           
 
 			var nsUrl = new NSUrl (_tweet.ImagePath);
 			var nsData = NSData.FromUrl(nsUrl);
 			var img = new UIImage (nsData != null ? nsData : @"Main/avatar.png");
+//			CGImage maskedImg = img.CGImage.WithMask (mask);
+//			UIImage asfsdf = UIImage.FromImage (maskedImg);
+//			_imgView = new UIImageView (asfsdf);
 
-			CGImage maskedImg = img.CGImage.WithMask (mask);
-			UIImage asfsdf = UIImage.FromImage (maskedImg);
-			_imgView = new UIImageView (asfsdf);
-			
+			_imgView = new UIImageView (img);
 			_imgView.Frame = new RectangleF (15, 28, 64, 64);
 			Add (_imgView);
 

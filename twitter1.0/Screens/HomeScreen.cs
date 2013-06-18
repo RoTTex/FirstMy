@@ -17,9 +17,10 @@ namespace Twitter
 		private TwitterConnectoin _twitterConection;
 		private string _tag;
 		private UITableView _table;
-		private TableSource _tableSource;
+		private TableSource _tableSource = new TableSource ();
 		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
 		public Action<string> TabSelected;
+		private LoadingOverlay _loadingOverlay;
 
 		public HomeScreen (string tag, TwitterConnectoin twitterConection) : base ()
 		{
@@ -30,7 +31,8 @@ namespace Twitter
 
 		private new void Init()
 		{
-			_tableSource = new TableSource ();
+			//_tableSource = new TableSource ();
+
 
 			_twitterConection.TweetsTaken += (json) => 
 			{
@@ -39,6 +41,8 @@ namespace Twitter
 
 				_tableSource.AddRange(tweets);
 				InvokeOnMainThread(_table.ReloadData);
+
+				InvokeOnMainThread(_loadingOverlay.Hide);
 			};
 
 			_tableSource.SelectionChanged += (twit) => 
@@ -77,6 +81,9 @@ namespace Twitter
 
 			if (_twitterConection.IsAuthenticated)
 			{
+				_loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				View.Add (_loadingOverlay);
+
 				_twitterConection.GeTwittstByTag(_tag, _count);
 				return;
 			}
@@ -98,19 +105,24 @@ namespace Twitter
 			_table.ContentMode = UIViewContentMode.ScaleToFill;
 			_table.RowHeight = 50;
 			_table.BackgroundView = imgView;
-			Add (_table);
 
 			var btn = UIButton.FromType (UIButtonType.RoundedRect);
 			btn.SetTitle("Показать еще", UIControlState.Normal);
 			btn.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
-			btn.Frame = new RectangleF (15, 15, 290, 60);
+			btn.Frame = new RectangleF (0, 0, 290, 50);
 			btn.Frame = new RectangleF (15, _table.Frame.Bottom + 15, 290, 60);
 			btn.TouchUpInside += (sender, e) => 
 			{
+				_loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
+				View.Add (_loadingOverlay);
 				_count += 5;
 				_twitterConection.GeTwittstByTag(_tag, _count);
 			};
-			Add (btn);
+			//Add (btn);
+			_tableSource.BtnAdd = btn;
+			_table.AddSubview (btn);
+
+			Add (_table);
 
 			_btnInfo = new UIBarButtonItem ();
 			_btnInfo.Title = "Инфо";

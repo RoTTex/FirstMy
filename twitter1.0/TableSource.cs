@@ -11,6 +11,7 @@ namespace Twitter
 	public class TableSource : UITableViewSource {
 		List<Twit> _tableItems = new List<Twit>();
 		string _cellIdentifier = "TableCell";
+		public UIButton BtnAdd; 
 
 		public event Action<Twit> SelectionChanged;
 
@@ -31,10 +32,14 @@ namespace Twitter
 		public void AddRange(List<Twit> twits)
 		{
 			_tableItems = twits;
+			_tableItems.Add (new Twit());
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
+			if (_tableItems [indexPath.Row].Name == "Some Man")
+				return GetButtonCell ();
+
 			StringBuilder stringBuilder = new StringBuilder ();
 			int length = _tableItems [indexPath.Row].Info.Length > 30 ? 30 : _tableItems [indexPath.Row].Info.Length;
 			for (int i = 0; i < length; i++)
@@ -57,6 +62,13 @@ namespace Twitter
 			cell.DetailTextLabel.Font = UIFont.FromName("HelveticaNeue", 13);
 			cell.DetailTextLabel.TextColor = UIColor.FromRGB (65, 65, 65);
 
+			return cell;
+		}
+
+		private UITableViewCell GetButtonCell()
+		{
+			var cell = new UITableViewCell (UITableViewCellStyle.Default, _cellIdentifier);
+			cell.AddSubview (BtnAdd);
 			return cell;
 		}
 
