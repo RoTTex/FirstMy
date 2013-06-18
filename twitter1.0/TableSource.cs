@@ -56,6 +56,7 @@ namespace Twitter
 			var nsUrl = new NSUrl (_tableItems [indexPath.Row].ImagePath);
 			var nsData = NSData.FromUrl(nsUrl);
 			var cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _cellIdentifier);
+			lbl.Frame.Location = new PointF (cell.Frame.Width - 30, 5);
 			cell.AddSubview(lbl);
 			cell.ImageView.Image = new UIImage(nsData != null ? nsData : @"Main/avatar.png");
 

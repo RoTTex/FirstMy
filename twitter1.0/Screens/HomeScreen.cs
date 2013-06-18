@@ -96,8 +96,8 @@ namespace Twitter
 
 			Init ();
 
-			if (_twitterConection.IsAuthenticated)
-			{
+			//if (_twitterConection.IsAuthenticated)
+			//{
 				var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
 				activitySpinner.Frame = new RectangleF (0,0,50,50);
 				activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
@@ -109,13 +109,15 @@ namespace Twitter
 
 				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
 				return;
-			}
+			//}
 
-			_twitterConection.AuthenricationComplete += delegate() 
-			{
-				DismissViewController(true, null);
-			};
-			PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
+
+
+//			_twitterConection.AuthenricationComplete += delegate() 
+//			{
+//				DismissViewController(true, null);
+//			};
+			//PresentViewController(_twitterConection.GetAuthenticateUI(), false, () => { });
 		}
 
 		private int GetNumberOfRows()
