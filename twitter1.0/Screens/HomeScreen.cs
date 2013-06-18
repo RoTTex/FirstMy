@@ -23,8 +23,8 @@ namespace Twitter
 		private UITableView _table;
 		private TableSource _tableSource = new TableSource ();
 		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
-		private LoadingOverlay _loadingOverlay;
 		private UIAlertView _alert = new UIAlertView ();
+		private bool _isLoaded = false;
 
 
 
@@ -49,6 +49,8 @@ namespace Twitter
 				InvokeOnMainThread(_table.ReloadData);
 
 				InvokeOnMainThread(CloseAlert);
+
+				_isLoaded = true;
 			};
 
 			_tableSource.SelectionChanged += (twit) => 
@@ -85,6 +87,9 @@ namespace Twitter
 
 		public override void ViewDidAppear (bool animated)
 		{
+			if (_isLoaded)
+				return;
+
 			base.ViewDidAppear (animated);
 			
 			AddComponents ();
@@ -121,7 +126,7 @@ namespace Twitter
 		private void AddComponents()
 		{
 			_table = new UITableView ();	
-			_table.Frame = View.Frame;
+			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
 			_table.RowHeight = 50;
 			_table.BackgroundColor = UIColor.FromPatternImage(new UIImage (@"Tweets/bg.png"));
 			Add (_table);
@@ -129,9 +134,10 @@ namespace Twitter
 			var btn = UIButton.FromType (UIButtonType.RoundedRect);
 			btn.SetTitle("Показать еще", UIControlState.Normal);
 			btn.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
-			btn.Frame = new RectangleF (15, 5, 290, 40);
+			btn.Frame = new RectangleF (15, 5, View.Frame.Width - 30, 40);;
 			btn.TouchUpInside += (sender, e) => 
 			{
+				_isLoaded= false;
 				_alert.Show();
 				_clickCount++;
 				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
@@ -149,8 +155,8 @@ namespace Twitter
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
-			_table.Frame = View.Frame;
-			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, _table.Frame.Width - 30, 40);
+			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
+			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, View.Frame.Width - 30, 40);
 		}
 
 

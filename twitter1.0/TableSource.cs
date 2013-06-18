@@ -37,7 +37,7 @@ namespace Twitter
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			if (_tableItems [indexPath.Row].Name == "Some Man")
+			if (indexPath.Row >= _tableItems.Count || _tableItems [indexPath.Row].Name == "Some Man")
 				return GetButtonCell ();
 
 			StringBuilder stringBuilder = new StringBuilder ();

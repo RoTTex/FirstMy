@@ -29,10 +29,9 @@ namespace Twitter
 		{	
 			return Twitter.GetAuthenticateUI (acc =>
 			{
-				_account = acc; 
+				_account = acc;
 				if (_account!=null)
 					IsAuthenticated = true;
-				//AccountStore.Create().Save(acc, "Twitter");
 				OnAuthenricationComplete();
 			});
 		}

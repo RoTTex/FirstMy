@@ -25,6 +25,11 @@ namespace Twitter
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
 
 			AddComponents ();
 		}
@@ -34,7 +39,7 @@ namespace Twitter
 			View.BackgroundColor = UIColor.FromPatternImage (new UIImage (@"Tweets/bg.png"));
 			_scroll.Frame = View.Frame;
 			_scroll.ScrollEnabled = true;
-			_scroll.ContentSize = new SizeF (View.Frame.Size);
+			_scroll.ContentSize = new SizeF (100, 500);
 			Add(_scroll);
 
 			var img = new UIImage (@"info/logo.png");
@@ -43,7 +48,7 @@ namespace Twitter
 			_imgView.ContentMode = UIViewContentMode.Center;
 			_scroll.AddSubview (_imgView);
 
-			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, 180);
+			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, View.Frame.Height == 219 ? 120 : 180);
 			_text.Font = UIFont.FromName("HelveticaNeue", 13);
 			_text.Text = "Нам не стыдно за выпускаемые продукты, все они сделаны с вниманием к деталям. Пользователи это ценят, многие наши приложения попадают в топы AppStore и получают высокие оценки. \nМы любим своих заказчиков и решаем их задачи. На письма и телефон отвечаем быстро, по праздникам и выходным, делаем работу в срок и никуда не пропадаем.\nЗакажите разработку сейчас! ";
 			_text.TextAlignment = UITextAlignment.Left;
@@ -85,9 +90,9 @@ namespace Twitter
 			_scroll.Frame =  View.Frame;
 			_scroll.ContentSize = new SizeF (100, 500);
 			_imgView.Frame = new RectangleF (0, 5, View.Frame.Width, _imgView.Frame.Height);
-			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, 180);
-			_btnCall.Frame = new RectangleF (10, _btnCall.Frame.Bottom, 130, 50);
-			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _btnMail.Frame.Bottom, 130, 50);
+			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, View.Frame.Height == 219 ? 120 : 180);
+			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 50);
+			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 50);
 
 		}
 	}
