@@ -32,12 +32,13 @@ namespace Twitter
 		public void AddRange(List<Twit> twits)
 		{
 			_tableItems = twits;
+			_tableItems.Add (new Twit());
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, MonoTouch.Foundation.NSIndexPath indexPath)
 		{
-			//if (_tableItems [indexPath.Row].Name == "Some Man")
-			//	return GetButtonCell ();
+			if (_tableItems [indexPath.Row].Name == "Some Man")
+				return GetButtonCell ();
 
 			StringBuilder stringBuilder = new StringBuilder ();
 			int length = _tableItems [indexPath.Row].Info.Length > 30 ? 30 : _tableItems [indexPath.Row].Info.Length;
@@ -48,6 +49,9 @@ namespace Twitter
 			lbl.BackgroundColor = new UIColor (0, 0, 0, 0);
 			lbl.Text = "1";
 			lbl.TextColor = UIColor.FromRGB (65, 65, 65);
+
+			var btn = new UIButton (new RectangleF(270,5,40,40));
+			btn.BackgroundColor = UIColor.Black;
 
 			var nsUrl = new NSUrl (_tableItems [indexPath.Row].ImagePath);
 			var nsData = NSData.FromUrl(nsUrl);

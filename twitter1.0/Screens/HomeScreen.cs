@@ -78,14 +78,17 @@ namespace Twitter
 		{
 			base.ViewDidLoad ();
 
-			AddComponents ();
-
-			Init ();
 		}
 
 		public override void ViewDidAppear (bool animated)
 		{
 			base.ViewDidAppear (animated);
+
+
+			
+			AddComponents ();
+
+			Init ();
 
 			if (_twitterConection.IsAuthenticated)
 			{
@@ -105,20 +108,16 @@ namespace Twitter
 
 		private void AddComponents()
 		{
-			View.ContentMode = UIViewContentMode.ScaleToFill;
-			var imgView = new UIImageView (View.Bounds);
-			imgView.Image = new UIImage (@"Tweets/bg.png");
-			_table = new UITableView(View.Bounds);	
-			_table.ContentMode = UIViewContentMode.ScaleToFill;
+			_table = new UITableView ();	
+			_table.Frame = View.Frame;
 			_table.RowHeight = 50;
-			_table.BackgroundView = imgView;
+			_table.BackgroundColor = UIColor.FromPatternImage(new UIImage (@"Tweets/bg.png"));
 			Add (_table);
 
 			var btn = UIButton.FromType (UIButtonType.RoundedRect);
 			btn.SetTitle("Показать еще", UIControlState.Normal);
 			btn.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
-			btn.Frame = new RectangleF (0, 0, 290, 50);
-			btn.Frame = new RectangleF (15, _table.Frame.Bottom + 15, 290, 60);
+			btn.Frame = new RectangleF (15, 5, 290, 40);
 			btn.TouchUpInside += (sender, e) => 
 			{
 				_loadingOverlay = new LoadingOverlay (UIScreen.MainScreen.Bounds);
@@ -126,9 +125,7 @@ namespace Twitter
 				_count += 5;
 				_twitterConection.GeTwittstByTag(_tag, _count);
 			};
-			//Add (btn);
 			_tableSource.BtnAdd = btn;
-			//_table.AddSubview (btn);
 
 			_btnInfo = new UIBarButtonItem ();
 			_btnInfo.Title = "Инфо";
@@ -142,6 +139,7 @@ namespace Twitter
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
 			_table.Frame = View.Frame;
+			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, _table.Frame.Width - 30, 40);
 		}
 	}
 }
