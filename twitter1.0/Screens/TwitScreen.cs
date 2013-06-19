@@ -40,6 +40,11 @@ namespace Twitter
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+		}
+
+		public override void ViewDidAppear (bool animated)
+		{
+			base.ViewDidAppear (animated);
 
 			AddComponents ();
 		}
@@ -52,7 +57,7 @@ namespace Twitter
 			var nsData = NSData.FromUrl(nsUrl);
 			var img = new UIImage (nsData != null ? nsData : @"Main/avatar.png");
 
-			_imgView = new UIImageView (img);
+			_imgView = new UIImageView (CreateMaskToImage(img));
 			_imgView.Frame = new RectangleF (15, 28, 64, 64);
 			Add (_imgView);
 
@@ -112,6 +117,23 @@ namespace Twitter
 			strBuildr.Append (" ");
 			strBuildr.Append (temp[2]);
 			return DateTime.Parse (strBuildr.ToString());
+		}
+				
+		private UIImage CreateMaskToImage(UIImage image)
+		{
+			var maskRef = new UIImage (@"Main/mask_avatar_mini.png").CGImage; 
+
+			var maskedImage = image.CGImage.WithMask(CGImage.CreateMask(
+				maskRef.Width,
+				maskRef.Height,
+				maskRef.BitsPerComponent,
+				maskRef.BitsPerPixel,
+				maskRef.BytesPerRow,
+				maskRef.DataProvider,
+				null,
+				false
+				));
+			return UIImage.FromImage(maskedImage);
 		}
 	}
 }

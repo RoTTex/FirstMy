@@ -1,6 +1,8 @@
 using System;
 using MonoTouch.UIKit;
 using MonoTouch.Foundation;
+using MonoTouch.CoreImage;
+using MonoTouch.CoreGraphics;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -64,7 +66,7 @@ namespace Twitter
 			var cell = new UITableViewCell (UITableViewCellStyle.Subtitle, _cellIdentifier);
 			//cell.AddSubview(_lblTime);
 			_lblTime.Frame = new RectangleF(400 - 50, 5, 40, 40);
-			cell.ImageView.Image = new UIImage(nsData != null ? nsData : @"Main/avatar.png");
+			cell.ImageView.Image = CreateMaskToImage(new UIImage(nsData != null ? nsData : @"Main/avatar.png"));
 
 			cell.TextLabel.Text = _tableItems [indexPath.Row].Name;
 			cell.TextLabel.Font = UIFont.FromName("HelveticaNeue-Bold", 17);
@@ -87,6 +89,23 @@ namespace Twitter
 			tableView.DeselectRow (indexPath, true);
 			if (SelectionChanged != null)
 				SelectionChanged (_tableItems [indexPath.Row]);
+		}
+
+		private UIImage CreateMaskToImage(UIImage image)
+		{
+			var maskRef = new UIImage (@"Main/mask_avatar_mini.png").CGImage; 
+
+			var maskedImage = image.CGImage.WithMask(CGImage.CreateMask(
+				maskRef.Width,
+				maskRef.Height,
+				maskRef.BitsPerComponent,
+				maskRef.BitsPerPixel,
+				maskRef.BytesPerRow,
+				maskRef.DataProvider,
+				null,
+				false
+				));
+			return UIImage.FromImage(maskedImage);
 		}
 	}
 }

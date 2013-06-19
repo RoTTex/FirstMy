@@ -12,6 +12,8 @@ namespace Twitter
 		public string PostDate { get; set; }
 		public string Link { get; set; }
 
+
+
 		public Twit ()
 		{
 			Name = "Some Man";

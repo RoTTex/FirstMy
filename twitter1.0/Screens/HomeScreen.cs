@@ -134,7 +134,7 @@ namespace Twitter
 		private void AddComponents()
 		{
 			_table = new UITableView ();	
-			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
+			//_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
 			_table.RowHeight = 50;
 			_table.BackgroundColor = UIColor.FromPatternImage(new UIImage (@"Tweets/bg.png"));
 			Add (_table);
@@ -159,14 +159,20 @@ namespace Twitter
 				NavigationController.PushViewController (infoScreen, true);
 			};			
 			NavigationController.NavigationBar.TopItem.RightBarButtonItem = _btnInfo;
+
+			SetFrame ();
 		}
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
+			SetFrame ();
+		}
+
+		private void SetFrame()
+		{
 			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
 			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, View.Frame.Width - 30, 40);
 		}
-
 	}
 }
 

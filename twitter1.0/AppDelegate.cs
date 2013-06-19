@@ -12,6 +12,8 @@ namespace Twitter
 		UIWindow window;
 		TwitterConnectoin _twitterConnection = new TwitterConnectoin();
 
+
+
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
 			window = new UIWindow (UIScreen.MainScreen.Bounds);
@@ -41,7 +43,6 @@ namespace Twitter
 			homeScreen.TabBarItem = new UITabBarItem (tag, new UIImage(imageString), 0);
 			return new UINavigationController(homeScreen);
 		}
-
 	}
 }
 
