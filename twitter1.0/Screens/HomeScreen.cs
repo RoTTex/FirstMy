@@ -18,6 +18,7 @@ namespace Twitter
 
 
 		private int _clickCount = 1;
+		private int _count = 0;
 		private TwitterConnectoin _twitterConection;
 		private string _tag;
 		private UITableView _table;
@@ -25,6 +26,7 @@ namespace Twitter
 		private UIBarButtonItem _btnInfo = new UIBarButtonItem();
 		private UIAlertView _alert = new UIAlertView ();
 		private bool _isLoaded = false;
+		private bool _isSelected = false;
 
 
 
@@ -55,6 +57,9 @@ namespace Twitter
 
 			_tableSource.SelectionChanged += (twit) => 
 			{
+				if (_isSelected)
+					return;
+				_isSelected = true;
 				var twitter = new TwitScreen(twit);
 				this.NavigationController.PushViewController(twitter, true);
 			};
@@ -87,11 +92,11 @@ namespace Twitter
 
 		public override void ViewDidAppear (bool animated)
 		{
-			if (_isLoaded)
-			{
-				DidRotate(new UIInterfaceOrientation());
-				return;
-			}
+//			if (_isLoaded)
+//			{
+//				DidRotate(new UIInterfaceOrientation());
+//				return;
+//			}
 
 			base.ViewDidAppear (animated);
 			
@@ -99,20 +104,31 @@ namespace Twitter
 
 			Init ();
 
+			var lbl = new UILabel (new RectangleF(100,0,100,30));
+			lbl.Text = "Загрузка";
+			lbl.BackgroundColor = UIColor.FromRGBA (0, 0, 0, 0);
+			lbl.TextColor = UIColor.White;
 			var activitySpinner = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.WhiteLarge);
-			activitySpinner.Frame = new RectangleF (0,0,50,50);
+			activitySpinner.Frame = new RectangleF (0,-35,50,50);
 			activitySpinner.AutoresizingMask = UIViewAutoresizing.FlexibleMargins;
 			activitySpinner.StartAnimating ();
 			_alert = new UIAlertView();
 			_alert.Frame.Size = new SizeF (60, 60);
 			_alert.AddSubview(activitySpinner);
+			_alert.AddSubview (lbl);
 			_alert.Show();
 			_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
+			_isSelected = false;
 		}
 
-		private int GetNumberOfRows()
+		private int GetNumberOfRows(bool isAdd = false)
 		{
-			return ((int)(View.Frame.Height / 50) - 1) * _clickCount;
+			var temp = ((int)(View.Frame.Height / 50) - 1) * _clickCount;
+			if (_count < temp)
+				_count = temp;
+			else if (isAdd)
+				_count += temp;
+			return _count;
 		}
 
 		private void AddComponents()
@@ -132,7 +148,7 @@ namespace Twitter
 				_isLoaded= false;
 				_alert.Show();
 				_clickCount++;
-				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows());
+				_twitterConection.GeTwittstByTag(_tag, GetNumberOfRows(true));
 			};
 			_tableSource.BtnAdd = btn;
 
@@ -150,6 +166,7 @@ namespace Twitter
 			_table.Frame = new RectangleF(0,0, View.Frame.Width, View.Frame.Height);
 			_tableSource.BtnAdd.Frame = new RectangleF (15, 5, View.Frame.Width - 30, 40);
 		}
+
 	}
 }
 

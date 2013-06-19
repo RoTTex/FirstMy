@@ -5,6 +5,7 @@ using MonoTouch.UIKit;
 using MonoTouch.CoreAnimation;
 using MonoTouch.CoreGraphics;
 using MonoTouch.CoreImage;
+using System.Text;
 
 namespace Twitter
 {
@@ -14,6 +15,8 @@ namespace Twitter
 		private UITextView _text = new UITextView ();
 		private UIImageView _imgView = new UIImageView();
 		private UILabel _lblStatus = new UILabel();
+		private UIImageView _imgViewLine = new UIImageView();
+		private UILabel _lblUnderline = new UILabel();
 
 
 
@@ -75,30 +78,40 @@ namespace Twitter
 			_text.BackgroundColor = new UIColor(0,0,0,0);
 			_text.UserInteractionEnabled = false;
 			Add (_text);
+			_text.Frame = new RectangleF (10, _imgView.Frame.Bottom + 10, View.Frame.Width - 20, _text.ContentSize.Height);
 
-			var imgViewLine = new UIImageView (new RectangleF(10, _text.Frame.Bottom + 5, 200, 1));
-			imgViewLine.Image = new UIImage (@"Tweets/line.png");
-			Add (imgViewLine);
+			_imgViewLine = new UIImageView (new RectangleF(10, _text.Frame.Bottom + 5, 200, 1));
+			_imgViewLine.Image = new UIImage (@"Tweets/line.png");
+			Add (_imgViewLine);
 
-			var lblDate = new UILabel (new RectangleF(10, imgViewLine.Frame.Bottom, 50, 30));
-			lblDate.Font = UIFont.FromName("HelveticaNeue", 10);
-			lblDate.TextColor = UIColor.FromRGB(119,119,119);
-			lblDate.Text = String.Format("{0:d.M.yyyy}", _tweet.PostDate);
-			lblDate.BackgroundColor = new UIColor(0,0,0,0);
-			Add (lblDate);
-
-			var lblLink = new UILabel (new RectangleF(lblDate.Frame.Right + 5, imgViewLine.Frame.Bottom, 100, 30));
-			lblLink.Font = UIFont.FromName("HelveticaNeue", 10);
-			lblLink.TextColor = UIColor.Gray;
-			lblLink.Text = _tweet.Link;
-			lblLink.BackgroundColor = new UIColor(0,0,0,0);
-			Add (lblLink);
+			_lblUnderline = new UILabel (new RectangleF(10, _imgViewLine.Frame.Bottom, View.Frame.Width, 30));
+			_lblUnderline.Font = UIFont.FromName("HelveticaNeue", 10);
+			_lblUnderline.TextColor = UIColor.FromRGB(119,119,119);
+			_lblUnderline.Text = String.Format("{0:d.M.yyyy}   " + _tweet.Link, GetDate(_tweet.PostDate));
+			_lblUnderline.BackgroundColor = new UIColor(0,0,0,0);
+			Add (_lblUnderline);
+			_imgViewLine.Frame.Size = new SizeF(_lblUnderline.IntrinsicContentSize.Width,1);
 		}
 
 		public override void DidRotate (UIInterfaceOrientation fromInterfaceOrientation)
 		{
 			_lblStatus.Frame = new RectangleF(_imgView.Frame.Right + 18, _lblStatus.Frame.Top, View.Frame.Width - _imgView.Frame.Right - 28, 30);
 			_text.Frame = new RectangleF (10, _imgView.Frame.Bottom + 10, View.Frame.Width - 20, 60);
+			_text.Frame = new RectangleF (10, _imgView.Frame.Bottom + 10, View.Frame.Width - 20, _text.ContentSize.Height);
+			_imgViewLine.Frame = new RectangleF(10, _text.Frame.Bottom + 5, 200, 1);
+			_lblUnderline.Frame = new RectangleF (10, _imgViewLine.Frame.Bottom, View.Frame.Width, 30);
+		}
+
+		private DateTime GetDate(string dateTime)
+		{
+			string[] temp = dateTime.Split (' ');
+			var strBuildr = new StringBuilder ();
+			strBuildr.Append (temp[0]);
+			strBuildr.Append (" ");
+			strBuildr.Append (temp[1]);
+			strBuildr.Append (" ");
+			strBuildr.Append (temp[2]);
+			return DateTime.Parse (strBuildr.ToString());
 		}
 	}
 }

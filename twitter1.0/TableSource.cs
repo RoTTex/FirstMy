@@ -28,11 +28,6 @@ namespace Twitter
 		{
 		}
 
-		public TableSource (List<Twit> items)
-		{
-			_tableItems = items;
-		}
-
 
 
 		public override int RowsInSection (UITableView tableview, int section)

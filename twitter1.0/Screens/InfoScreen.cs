@@ -61,16 +61,18 @@ namespace Twitter
 			_text.UserInteractionEnabled = false;
 			_text.BackgroundColor = new UIColor (0, 0, 0, 0);
 			_scroll.AddSubview (_text);
+			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, _text.ContentSize.Height);
 
 			var imgButton = new UIImage (@"Info/button.png").StretchableImage (11,0);
 			var imgButton_pressed = new UIImage (@"Info/button_pressed.png").StretchableImage (11,0);
 
-			var imgCallButtonIcon = new UIImage (@"Info/icon_phone.png");
-			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 50);
+			var imgCallButtonIcon = new UIImage (@"Info/icon_phone.png");		
+			var imgCallButtonIconView = new UIImageView (imgCallButtonIcon);
+			imgCallButtonIconView.Frame = new RectangleF (55, 16, imgCallButtonIcon.Size.Width, imgCallButtonIcon.Size.Height);
+			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 65);
 			_btnCall.SetBackgroundImage(imgButton, UIControlState.Normal);
 			_btnCall.SetBackgroundImage(imgButton_pressed, UIControlState.Highlighted);
-			_btnCall.SetImage (imgCallButtonIcon, UIControlState.Normal);
-			_btnCall.ContentMode = UIViewContentMode.Top;
+			_btnCall.AddSubview(imgCallButtonIconView);
 			_btnCall.TouchUpInside += (sender, e) => 
 			{
 				BeginInvokeOnMainThread (() => {new UIAlertView ("Phone", "7-777-2234455", null, "OK").Show ();}); 
@@ -78,10 +80,12 @@ namespace Twitter
 			_scroll.AddSubview (_btnCall);
 
 			var imgMailButtonIcon = new UIImage (@"Info/icon_mail.png");
-			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 50);
+			var imgMailButtonIconView = new UIImageView (imgMailButtonIcon);
+			imgMailButtonIconView.Frame = new RectangleF (55, 16, imgMailButtonIcon.Size.Width, imgMailButtonIcon.Size.Height);
+			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 65);
 			_btnMail.SetBackgroundImage(imgButton, UIControlState.Normal);
 			_btnMail.SetBackgroundImage(imgButton_pressed, UIControlState.Highlighted);
-			_btnMail.SetImage (imgMailButtonIcon, UIControlState.Normal);
+			_btnMail.AddSubview(imgMailButtonIconView);
 			_btnMail.TouchUpInside += (sender, e) => 
 			{
 				BeginInvokeOnMainThread (() => {new UIAlertView ("Site", "www.Some.com", null, "OK").Show ();});
@@ -95,8 +99,9 @@ namespace Twitter
 			_scroll.ContentSize = new SizeF (100, 500);
 			_imgView.Frame = new RectangleF (0, 5, View.Frame.Width, _imgView.Frame.Height);
 			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, View.Frame.Height == 219 ? 120 : 190);
-			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 50);
-			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 50);
+			_text.Frame = new RectangleF(10, _imgView.Frame.Bottom + 1, View.Frame.Right -  20, _text.ContentSize.Height);
+			_btnCall.Frame = new RectangleF (10, _text.Frame.Bottom + 5, 130, 65);
+			_btnMail.Frame = new RectangleF (_scroll.Frame.Width - 140, _text.Frame.Bottom + 5, 130, 65);
 
 		}
 	}

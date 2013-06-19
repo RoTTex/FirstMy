@@ -11,7 +11,6 @@ namespace Twitter
 	{
 		UIWindow window;
 		TwitterConnectoin _twitterConnection = new TwitterConnectoin();
-		UINavigationController navi = new UINavigationController ();
 
 		public override bool FinishedLaunching (UIApplication app, NSDictionary options)
 		{
