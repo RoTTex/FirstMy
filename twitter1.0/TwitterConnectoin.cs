@@ -55,6 +55,7 @@ namespace Twitter
 				{ "q", "%23" + tag },
 				{ "count", count.ToString() }
 			}, _account);
+			{
 			req.GetResponseAsync ().ContinueWith (r => {
 				if (r.IsFaulted)
 				{
@@ -64,6 +65,7 @@ namespace Twitter
 					OnTweetsTaken(r.Result.GetResponseText ());
 				}
 			});
+			}
 		}
 
 		private void OnTweetsTaken(string str)
